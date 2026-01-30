@@ -1,0 +1,27 @@
+In prevous while (using synchronouization),unconditionally blocked other threads from a synchronous access
+to certain method .This use of implicit monitor in java object is powerful but we can achieve a more subtal level of control 
+through interprocess commununication. 
+As discussed earlier, multithreading replaces event loop programming by dividing task into discrete logic units.
+Threads also provide secondary benefit they do away with pulling .Pulling is usually implemented by a loop that is used to check 
+some condition repeatedly.Once condition is true the appropriate action is taken, this waste CPU time
+For e.g
+    Consider clssic chewing problem where one thread is producing some data and another is consuming it .
+    to make the problem more interesting ,suppose that the producer has to wait untill the consumer is finished before it generates the more data
+    In pulling system,consumer must waste many CPU cycles while it waited for the producers to produce once the producer was finished ,it would start pulling 
+    wasting more CPU cycles waiting for the consumers to finish and so on.....
+
+To avoid pulling java includes an elagant interprocess communication mechanism via the wait() ,notify() and notifyAll() methods .
+These methods are implementes as final method in class objects,so all classes have them.All three methods can be called from the synchronized contest
+Rules for using these methods are quite simple 
+
+wait()=The method tells the calling thread to give up the monitor and go to sleep untill some other thread enters the same monitor 
+and calls notify .
+
+notify()=The method waits up the thread that called on the same object 
+
+notifyAll()=These  wakes up all the thread that called wait on the same object one of the thread can be granted across.
+
+Before working through the example,although wait method normally wait untill notifyAll or notify is called. There is possiblilty that 
+in very rare cases the waiting thread could be awakened through a spurious meethod.In these case the waiting thread resumes notify or notify when having been called.
+Because of these remote possibility some recomends that calls to wait should takes place witin the loop that check the condition on which the thread is waiting.
+
